@@ -207,20 +207,6 @@ This repository includes production-ready Infrastructure as Code:
 
 ---
 
-## 🎤 Interview Cheatsheet: Questions This Project Solves
-
-When interviewers grill you on this project, here is how you talk about it:
-
-1. **"How do you prevent money from being deducted twice on duplicate network requests?"**
-   > *"I designed an Idempotency layer using Redis and Redisson distributed locks. Every payment requires an `Idempotency-Key`. We acquire a lock on the source account to serialize concurrent requests, check Redis for previous execution results, and if present, return the cached response immediately without re-debiting."*
-
-2. **"How do you guarantee consistency between PostgreSQL and Kafka without distributed 2PC transactions?"**
-   > *"I used the Transactional Outbox Pattern. Within a single ACID transaction, we persist the payment record and an outbox event to PostgreSQL. A dedicated publisher polls or streams uncommitted outbox events to Kafka, marking them `PUBLISHED` only after Kafka acknowledges receipt. This ensures at-least-once delivery with zero data loss."*
-
-3. **"Why use Double-Entry Bookkeeping instead of updating a balance column?"**
-   > *"In financial systems, balances must never be blindly updated. With double-entry bookkeeping, every transfer is recorded as offsetting DEBIT and CREDIT lines in an immutable journal. The mathematical invariant $\sum \text{Debits} == \sum \text{Credits}$ ensures money is neither created nor destroyed, providing full cryptographic auditability."*
-
----
 
 ## 👨‍💻 Author
 **Debayan Mondal**  
